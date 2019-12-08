@@ -15,6 +15,15 @@ public class User {
     private Long gmtCreate;
     private Long gmtModify;
     private String token;
+    private String bio;
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     public String getUsername() {
         return username;

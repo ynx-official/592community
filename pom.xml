@@ -83,6 +83,20 @@
       <artifactId>mybatis-plus-boot-starter</artifactId>
       <version>2.2.0</version>
     </dependency>
+    <!-- 热加载-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
+      <!--<scope>true</scope>-->
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.10</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -103,6 +117,31 @@
             <version>1.4.199</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <!--Flyway-->
+      <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>6.1.0</version>
+        <configuration>
+          <url>jdbc:mysql://localhost/community</url>
+          <user>root</user>
+          <password>5201314</password>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.197</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <fork>true</fork><!-- 如果没有该配置，热部署的devtools不生效 -->
+        </configuration>
       </plugin>
     </plugins>
   </build>
