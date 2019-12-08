@@ -10,9 +10,13 @@ import com.method.dto.GithubUser;
 import com.method.mapper.UserMapper;
 import com.method.model.User;
 import com.method.provider.GithubProvider;
+import com.sun.deploy.net.HttpResponse;
+import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import java.util.UUID;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -38,7 +42,7 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public  String callback(@RequestParam(name="code") String code,
-                            @RequestParam(name="state") String state, HttpServletRequest request){
+                            @RequestParam(name="state") String state, HttpServletRequest request, HttpServletResponse response){
         AccessTokenDTO accessToken = new AccessTokenDTO();
         accessToken.setCode(code);
         accessToken.setRedirect_uri(redirectUri);
@@ -51,16 +55,17 @@ public class AuthorizeController {
         if (githubUser!=null){
             User user = new User();
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setToken((UUID.randomUUID().toString()));
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setHeadPic(githubUser.getAvatarurl());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModify(System.currentTimeMillis());
             userMapper.insert(user);
+            response.addCookie(new Cookie("token",token));
             //登陆成功,写cookie 和session
             request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
-
         }else {
             //登陆失败,写cookie 和session
             return "redirect:/";
