@@ -51,14 +51,14 @@ public class AuthorizeController {
         accessToken.setClient_secret(secret);
         String accessToken1 = githubProvider.getAccessToken(accessToken);
         GithubUser githubUser = githubProvider.getUser(accessToken1);
-        System.out.println(githubUser.getName()+" "+githubUser.getAvatarurl());
+        System.out.println(githubUser.getName()+" "+githubUser.getAvatarUrl());
         if (githubUser!=null && githubUser.getId()!=null){
             User user = new User();
             user.setAccountId(String.valueOf(githubUser.getId()));
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setName(githubUser.getName());
-            user.setHeadPic(githubUser.getAvatarurl());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModify(System.currentTimeMillis());
             userMapper.insert(user);

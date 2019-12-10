@@ -77,12 +77,12 @@
       <version>1.4.200</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
-    <dependency>
+    <!-- MybatisPlus -->
+    <!--<dependency>
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-boot-starter</artifactId>
-      <version>2.2.0</version>
-    </dependency>
+      <version>3.3.0</version>
+    </dependency>-->
     <!-- 热加载-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
