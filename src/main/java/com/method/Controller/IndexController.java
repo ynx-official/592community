@@ -5,19 +5,17 @@ package com.method.Controller;
  *
  */
 
-import com.method.dto.QuestionDTO;
-import com.method.mapper.QuestionMapper;
+import com.method.dto.PaginationDTO;
 import com.method.mapper.UserMapper;
-import com.method.model.Question;
 import com.method.model.User;
 import com.method.service.QuestionService;
-import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
@@ -29,7 +27,9 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-            Model model){
+            Model model,
+            @RequestParam(name = "page",defaultValue = "1") Integer page,
+            @RequestParam(name = "size",defaultValue = "1") Integer size){
         Cookie[] cookies = request.getCookies();
         if (cookies!= null &&cookies.length!=0){
             for (Cookie cookie:cookies){
@@ -43,8 +43,8 @@ public class IndexController {
                 }
             }
         }
-        List<QuestionDTO> list = questionService.list();
-        model.addAttribute("questions",list);
+        PaginationDTO list = questionService.list(page,size);
+        model.addAttribute("pagination",list);
         return  "index";
     }
 }
